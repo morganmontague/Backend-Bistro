@@ -9,5 +9,6 @@ from . import views
 # ]
 
 urlpatterns = [
-    path('', views.index, name='index')
+    path('', views.get_menu, name='menu'),
+    path('Cuisine', views.menu_by_cuisine, name='cuisine')
 ]
