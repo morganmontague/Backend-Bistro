@@ -11,5 +11,6 @@ from . import views
 urlpatterns = [
     path('', views.get_menu, name='menu'),
     # path('Cuisine', views.menu_by_cuisine, name='cuisine'),
-    path('<int:cuisine_pick>/', views.menu_by_cuisine)
+    path('<int:cuisine_pick>/', views.menu_by_cuisine),
+    path('tesing_view', views.testing_view)
 ]

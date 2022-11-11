@@ -14,6 +14,9 @@ class Menu_Item(models.Model):
         "Cuisine",
         on_delete=models.CASCADE,
     null=True)
+    ingredients = models.ManyToManyField(
+        "Ingredients",
+        )
     def __str__(self):
         return self.title + ' $' + str(self.price)
 
@@ -35,3 +38,8 @@ class Cuisine(models.Model):
     # author = models.ManyToManyField(to)
 
 # class genres(models.Model):
+
+class Ingredients(models.Model):
+    title = models.CharField(max_length=40)
+    def __str__(self):
+        return self.title
