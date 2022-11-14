@@ -98,11 +98,26 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from rest_framework import permissions
-from .serializers import UserSerializer, GroupSerializer, Menu_ItemSerializer
+from .serializers import UserSerializer, GroupSerializer, Menu_ItemSerializer, CategorySerializer, CuisineSerializer
 from pprint import pprint
 from .models import Menu_Item, Category, Cuisine, Ingredients
 from django.forms.models import model_to_dict
 
+class CategoryViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows Menu Items to be viewed or edited.
+    """
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+class CuisineViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows Menu Items to be viewed or edited.
+    """
+    queryset = Cuisine.objects.all()
+    serializer_class = CuisineSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 class UserViewSet(viewsets.ModelViewSet):
     """

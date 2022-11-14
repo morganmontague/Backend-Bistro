@@ -1,7 +1,19 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
-from .models import Menu_Item
+from .models import Menu_Item, Category, Cuisine
 
+class CategorySerializer(serializers.HyperlinkedModelSerializer):
+    menu_items_by_categories = serializers.StringRelatedField(many=True)
+    
+    class Meta:
+        model = Category
+        fields = ['title', 'menu_items_by_categories']
+
+class CuisineSerializer(serializers.HyperlinkedModelSerializer):
+    menu_item_by_cuisines = serializers.StringRelatedField(many=True)
+    class Meta:
+        model = Cuisine
+        fields = ['title', 'menu_item_by_cuisines']
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -16,11 +28,7 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 
 class Menu_ItemSerializer(serializers.HyperlinkedModelSerializer):
     category = serializers.StringRelatedField(many=False)
-    cuisine = serializers.SlugRelatedField(
-        many=False,
-        read_only=True,
-        slug_field='title'
-    )
+    cuisine = serializers.StringRelatedField(many=False)
     ingredients = serializers.StringRelatedField(many=True)
     class Meta:
         model = Menu_Item

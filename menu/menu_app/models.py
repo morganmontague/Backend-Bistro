@@ -8,10 +8,12 @@ class Menu_Item(models.Model):
     spice_level = models.SmallIntegerField(null=True)
     category = models.ForeignKey(
         "Category", 
+        related_name="menu_items_by_categories",
         on_delete=models.CASCADE,
     null=True)
     cuisine = models.ForeignKey(
         "Cuisine",
+        related_name="menu_item_by_cuisines",
         on_delete=models.CASCADE,
     null=True)
     ingredients = models.ManyToManyField(
