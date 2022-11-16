@@ -28,9 +28,9 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
         fields = ['url', 'name']
 
 class Menu_ItemSerializer(serializers.HyperlinkedModelSerializer):
-    category = CategorySerializer(many=False)
-    cuisine = CuisineSerializer(many=False)
-    ingredients = serializers.StringRelatedField(many=True)
+    # category = CategorySerializer(many=False)
+    # cuisine = CuisineSerializer(many=False)
+    ingredients = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     class Meta:
         model = Menu_Item
         fields = [
@@ -38,7 +38,7 @@ class Menu_ItemSerializer(serializers.HyperlinkedModelSerializer):
             'description',
             'price',
             'spice_level',
-            'category',
-            'cuisine',
+            # 'category',
+            # 'cuisine',
             'ingredients'
         ]

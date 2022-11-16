@@ -96,12 +96,14 @@
 #     return JsonResponse(list_of_menu, safe=False)
 
 from django.contrib.auth.models import User, Group
-from rest_framework import viewsets
-from rest_framework import permissions
+from rest_framework import viewsets, permissions
 from .serializers import UserSerializer, GroupSerializer, Menu_ItemSerializer, CategorySerializer, CuisineSerializer
 from pprint import pprint
 from .models import Menu_Item, Category, Cuisine, Ingredients
 from django.forms.models import model_to_dict
+from django.http.response import Http404
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
 class CategoryViewSet(viewsets.ModelViewSet):
     """
@@ -143,3 +145,51 @@ class Menu_ItemViewSet(viewsets.ModelViewSet):
     queryset = Menu_Item.objects.all()
     serializer_class = Menu_ItemSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+class CuisineAPIView(APIView):
+    def get_object(self, pk):
+        try:
+            return Menu_Item.get(pk = pk)
+        except Menu_Item.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk=None, format=None):
+        if pk:
+            data = self.get_object(pk)
+            serializer = Menu_ItemSerializer(data)
+
+        else:
+            data = Menu_Item.objects.all()
+            serializer = Menu_ItemSerializer(data, many=True)
+
+            return Response(serializer.data)
+
+    # Create
+    def post(self, request, format=None):
+        data ={
+            'title': request.POST.get('title', None),
+            'description':request.POST.get('description', None),
+            'price': request.POST.get('price', None),
+            'spice_level': request.POST.get('spice_level', None),
+            'category' : Category.id,
+            'cuisine': Cuisine.id,
+            'ingredients': request.POST.get('ingredients', None)
+        }
+        serializer = Menu_ItemSerializer(data=data)
+
+        # Checl of True
+        serializer.is_valid(raise_exception=True)
+
+        # Save the data
+        serializer.save()
+
+        response = Response()
+
+        response.data = {
+            "message": 'Success',
+            "data": serializer.data
+        }
+        return response
+
+        
+

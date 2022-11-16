@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views
+from .views import CuisineAPIView
 
 # urlpatterns = [
 # path('menu/', views.get_menu),
@@ -9,8 +9,9 @@ from . import views
 # ]
 
 urlpatterns = [
-    path('', views.get_menu, name='menu'),
+    # path('', views.get_menu, name='menu'),
     # path('Cuisine', views.menu_by_cuisine, name='cuisine'),
-    path('<int:cuisine_pick>/', views.menu_by_cuisine),
-    path('tesing_view', views.testing_view)
+    # path('<int:cuisine_pick>/', views.menu_by_cuisine),
+    # path('tesing_view', views.testing_view),
+    path('test/', CuisineAPIView.as_view())
 ]
